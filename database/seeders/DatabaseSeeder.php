@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\UserSeeder;
+use Database\Seeders\PostSeeder;
+use Database\Seeders\CategorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +21,18 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        if (app()->environment('local', 'development')) {
+            // 開発環境用の大量データ
+            $this->call([
+                UserSeeder::class,
+                PostSeeder::class,
+                CategorySeeder::class,
+            ]);
+        } else {
+            // 本番環境用の最小データ
+            $this->call([
+                // BasicDataSeeder::class,
+            ]);
+        }
     }
 }
