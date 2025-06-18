@@ -37,7 +37,7 @@ Route::get('/search', [SearchController::class, 'index']);
 Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/posts', AdminPostController::class)->only([
-        'index','create','store','edit','update','delete'
+        'index','create','store','edit','update','destroy'
     ]);
     Route::resource('/categories', AdminCategoryController::class)->only([
         'index','create','store','edit','update'

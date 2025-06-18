@@ -8,8 +8,6 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Str;
-
 class PostController extends Controller
 {
     /**
@@ -17,8 +15,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('category','user')->
-                latest()->paginate(10);
+        $posts = Post::with([
+                'user',
+                'category'
+            ])->orderByDesc('created_at')
+            ->paginate(10);
         // dd($posts);
         return view('admin.posts.index',[
             'posts' => $posts
@@ -31,7 +32,7 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $users = User::all();
+        $users = User::where('role','editor')->get();
         return view('admin.posts.create', [
             'categories' => $categories,
             'users' => $users
@@ -50,10 +51,8 @@ class PostController extends Controller
             'status' => 'required|in:draft,published',
             'category_id' => 'required|exists:categories,id',
             'user_id' => 'required|exists:users,id',
-            // 'published_at' => 'nullable|date',
         ]);
         dd($validated);
-        // Post::create($validated);
 
         return redirect()->route('admin.posts.index')->with('success', '記事を作成しました');
     }
@@ -88,8 +87,9 @@ class PostController extends Controller
     /**
      * 削除処理
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
+        $post = Post::findOrFail($id);
         $post->delete();
         return redirect()->route('admin.posts.index')->with('success', '記事を削除しました');
     }

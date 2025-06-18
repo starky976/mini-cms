@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
+use App\Models\User;
 
 class Post extends Model
 {
@@ -14,10 +15,16 @@ class Post extends Model
         'title',
         'slug',
         'body',
-        'status'
+        'status',
+        'user_id',
+        'category_id'
     ];
-    public function categories()
+    public function user()
     {
-        $this->hasOne(Category::class);
+        return $this->belongsTo(User::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
