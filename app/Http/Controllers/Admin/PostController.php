@@ -44,6 +44,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string',
@@ -52,8 +53,7 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
             'user_id' => 'required|exists:users,id',
         ]);
-        dd($validated);
-
+        // dd($validated);
         return redirect()->route('admin.posts.index')->with('success', '記事を作成しました');
     }
 

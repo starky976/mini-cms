@@ -70,7 +70,7 @@
             {{-- ステータス --}}
             <div class="mb-4">
                 <label class="block font-medium mb-1" for="status">ステータス</label>
-                <select name="status" id="status" class="w-full border rounded px-3 py-2" required>
+                <select name="status" id="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('status') border-red-500 @else border-gray-300 @enderror" required>
                     <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>下書き</option>
                     <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>公開</option>
                 </select>

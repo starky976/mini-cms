@@ -24,7 +24,7 @@
             @include('admin.layouts.sidebar')
 
             <!-- Page Content -->
-            <main class="relative block overflow-y-auto lg:ml-64 lg:px-10 lg:py-10">
+            <main class="relative block overflow-y-auto lg:ml-64 lg:px-10 lg:py-10 lg:mt-16">
                 @yield('content')
             </main>
         </div>
