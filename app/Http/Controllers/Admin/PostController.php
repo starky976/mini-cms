@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
+use App\Enums\PostStatus;
 
 class PostController extends Controller
 {
@@ -20,7 +22,6 @@ class PostController extends Controller
                 'category'
             ])->orderByDesc('created_at')
             ->paginate(10);
-        // dd($posts);
         return view('admin.posts.index',[
             'posts' => $posts
         ]);
@@ -49,11 +50,11 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'required|string',
             'body' => 'required|string',
-            'status' => 'required|in:draft,published',
+            'status' => ['required', new Enum(PostStatus::class)],
             'category_id' => 'required|exists:categories,id',
             'user_id' => 'required|exists:users,id',
         ]);
-        // dd($validated);
+        Post::create($validated);
         return redirect()->route('admin.posts.index')->with('success', '記事を作成しました');
     }
 
@@ -63,7 +64,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
-        $users = User::all();
+        $users = User::where('role','editor')->get();
         return view('admin.posts.edit', compact('post', 'categories', 'users'));
     }
 
@@ -76,10 +77,11 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'slug' => 'required|string',
             'body' => 'required|string',
+            'status' => ['required', new Enum(PostStatus::class)],
             'category_id' => 'required|exists:categories,id',
-            'status' => 'required|in:draft,published',
-            'published_at' => 'nullable|date',
+            'user_id' => 'required|exists:users,id',
         ]);
+        // dd($validated);
         $post->update($validated);
         return redirect()->route('admin.posts.index')->with('success', '記事を更新しました');
     }

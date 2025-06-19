@@ -5,15 +5,27 @@
     <div class="flex ">
         <h1 class="flex-1 block text-2xl font-semibold">投稿作成</h1>
     </div>
+     @if ($errors->any())
+        <div class="mb-4 p-4 bg-red-100 text-red-600 rounded">
+            <ul class="list-disc pl-5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="flex">
-        <form method="POST" action="{{ route('admin.posts.store') }}" class="w-1/2">
+        <form class="w-1/2"
+            method="POST"
+            action="{{ route('admin.posts.store') }}"
+        >
             @csrf
             {{-- タイトル --}}
             <div class="form-control my-4">
                 <label for="title" class="label">
                     <span class="label-text">タイトル:</span>
                 </label>
-                <input type="text" title="title" value="{{ old('title') }}"
+                <input type="text" name="title" value="{{ old('title') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('title') border-red-500 @else border-gray-300 @enderror" required>
                 @error('title')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -24,7 +36,7 @@
                 <label for="slug" class="label">
                     <span class="label-text">スラッグ:</span>
                 </label>
-                <input type="text" title="slug" value="{{ old('slug') }}"
+                <input type="text" name="slug" value="{{ old('slug') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('slug') border-red-500 @else border-gray-300 @enderror" required>
                 @error('slug')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -35,7 +47,7 @@
                 <label for="body" class="label">
                     <span class="label-text">本文:</span>
                 </label>
-                <textarea type="text" title="body" rows="10" value="{{ old('body') }}"
+                <textarea type="text" name="body" rows="10" value="{{ old('body') }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('body') border-red-500 @else border-gray-300 @enderror"
                     required placeholder="本文を入力してください">
                 </textarea>
@@ -71,14 +83,20 @@
             <div class="mb-4">
                 <label class="block font-medium mb-1" for="status">ステータス</label>
                 <select name="status" id="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('status') border-red-500 @else border-gray-300 @enderror" required>
-                    <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>下書き</option>
-                    <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>公開</option>
+                    @foreach (\App\Enums\PostStatus::cases() as $status)
+                        <option value="{{ $status->value }}" {{ old('status') == $status->value ? 'selected' : '' }}>
+                            {{ $status->name }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 
             <div class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 mt-8">
                 <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button
+                    type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
                         投稿追加
                     </button>
                 </div>

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\User;
+use App\Enums\PostStatus;
 
 class Post extends Model
 {
@@ -19,6 +20,10 @@ class Post extends Model
         'user_id',
         'category_id'
     ];
+    protected $casts = [
+        'status' => PostStatus::class,
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
