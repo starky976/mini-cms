@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('body')->comment('本文');
             $table->enum('status',[
                 'draft',
-                'publish',
+                'published',
                 'private',
             ])->default('draft')->comment('ステータス');
             //外部キー

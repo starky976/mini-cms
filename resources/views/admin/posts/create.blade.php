@@ -47,10 +47,9 @@
                 <label for="body" class="label">
                     <span class="label-text">本文:</span>
                 </label>
-                <textarea type="text" name="body" rows="10" value="{{ old('body') }}"
+                <textarea type="text" name="body" rows="10"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('body') border-red-500 @else border-gray-300 @enderror"
-                    required placeholder="本文を入力してください">
-                </textarea>
+                    required placeholder="本文を入力してください">{{ old('body')}}</textarea>
                 @error('body')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -85,7 +84,7 @@
                 <select name="status" id="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 @error('status') border-red-500 @else border-gray-300 @enderror" required>
                     @foreach (\App\Enums\PostStatus::cases() as $status)
                         <option value="{{ $status->value }}" {{ old('status') == $status->value ? 'selected' : '' }}>
-                            {{ $status->name }}
+                            {{ $status->label() }}
                         </option>
                     @endforeach
                 </select>
