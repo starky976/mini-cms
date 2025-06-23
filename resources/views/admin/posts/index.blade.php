@@ -46,13 +46,7 @@
                         {{ $post->category->name }}
                     </td>
                     <td class="px-6 py-4">
-                        <?php
-                            if ($post->status == 'draft') {
-                                print ('下書き');
-                            }else{
-                                print ('公開中');
-                            }
-                        ?>
+                        {{ $post->status->label() }}
                     </td>
                     <td class="px-6 py-4">
                         {{ $post->created_at }}
@@ -75,6 +69,10 @@
                 @endforeach
             </tbody>
         </table>
+
+        <div class="mt-6">
+            {{ $posts->links() }}
+        </div>
         @endif
     </div>
 @endsection
