@@ -10,7 +10,7 @@
             <h2 class="section-title text-xl font-semibold">投稿一覧</h2>
             <div class="section-content pt-2">
                 <p>投稿件数は {{ $postCount }}</p>
-                <p>投稿件数は {{ $draftCount }}</p>
+                <p>下書きの投稿件数は {{ $draftCount }}</p>
                 <a class="font-medium text-blue-600 hover:underline"
                 href="{{ route('admin.posts.index')}}">投稿一覧ページへ</a>
             </div>
@@ -19,7 +19,7 @@
             <h2 class="section-title text-xl font-semibold">カテゴリー一覧
             </h2>
             <div class="section-content pt-2">
-                カテゴリー数は{{ $categoryCount }}
+                <p>カテゴリー数は{{ $categoryCount }}</p>
                 <a class="font-medium text-blue-600 hover:underline"
                 href="{{ route('admin.categories.index')}}">カテゴリー一覧ページへ</a>
             </div>

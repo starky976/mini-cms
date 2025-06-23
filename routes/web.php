@@ -25,13 +25,12 @@ use App\Http\Controllers\CategoryController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/posts', [PostController::class, 'index']);
-Route::get('/posts/{slug}', [PostController::class, 'show']);
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/categories/{slug}', [CategoryController::class, 'show']);
-Route::get('/search', [SearchController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
+Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('category.show');
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // 管理画面ルート（ログインが必要）
 Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {

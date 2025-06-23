@@ -10,11 +10,12 @@ class CategoryController extends Controller
     // public function index() {}
     public function show($slug)
     {
-        $category = Category::where('slug', $slug)->findOrFail();
+        $category = Category::where('slug', $slug)->firstOrFail();
+
         $posts = $category->posts()
             ->where('status', 'published')
-            ->orderBy('published_at', 'desc')
-            ->paginate(20);
+            ->latest('created_at')
+            ->paginate(10);
 
         return view('categories.show' , compact('category', 'posts'));
     }
